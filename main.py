@@ -30,13 +30,13 @@ def main():
                 env.close()
                 return
             
-            if human_action != "NOOP":  # If not NOOP
+            if human_action != SIMPLE_MOVEMENT.index(['NOOP']):  # If not NOOP
                 action = human_action
-                print(f"Human action: {action}")
+                print(f"Human action: {SIMPLE_MOVEMENT[action]}")
             else:
                 processed_state = agent.preprocess_state(state)
                 action = agent.get_action(processed_state)
-                print(f"AI action: {action}")
+                print(f"AI action: {SIMPLE_MOVEMENT[action]}")
             
             next_state, reward, done, info = env.step(action)
             
