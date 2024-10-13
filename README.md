@@ -1,6 +1,6 @@
 # Mario Q-Learning AI
 
-This project implements a Q-Learning AI agent that learns to play Super Mario Bros. The agent can learn from both human gameplay and its own experiences, creating an interactive learning environment.
+This project implements a Q-Learning AI agent that learns to play Super Mario Bros. The agent can learn from both human gameplay and its own experiences, creating an interactive learning environment. We have plans to also introduce a DQN agent.
 
 ## Features
 
@@ -21,8 +21,8 @@ This project implements a Q-Learning AI agent that learns to play Super Mario Br
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/mario-q-learning.git
-   cd mario-q-learning
+   git clone https://github.com/cocuts/rl-mario.git
+   cd rl-mario
    ```
 
 2. Install the required packages:
@@ -74,5 +74,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - OpenAI Gym for the gym-super-mario-bros environment
 - The reinforcement learning community for inspiration and algorithms
-
-Enjoy playing and learning with your Mario AI!
