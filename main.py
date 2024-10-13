@@ -24,25 +24,20 @@ def main():
         while not done:
             env.render()
             
-            human_action = env.get_human_action()
-            if human_action == -1:  # Check for quit signal
+            processed_state = agent.preprocess_state(state)
+            ai_action = agent.get_action(processed_state)
+            
+            next_state, reward, done, info = env.step(ai_action)
+            
+            if info.get("quit", False):
                 print("Quitting the game.")
                 env.close()
                 return
             
-            if human_action != SIMPLE_MOVEMENT.index(['NOOP']):  # If not NOOP
-                action = human_action
-                print(f"Human action: {SIMPLE_MOVEMENT[action]}")
-            else:
-                processed_state = agent.preprocess_state(state)
-                action = agent.get_action(processed_state)
-                print(f"AI action: {SIMPLE_MOVEMENT[action]}")
+            print(f"Action taken: {info['action_taken']} by {info['action_source']}")
             
-            next_state, reward, done, info = env.step(action)
-            
-            processed_state = agent.preprocess_state(state)
             processed_next_state = agent.preprocess_state(next_state)
-            agent.update(processed_state, action, reward, processed_next_state)
+            agent.update(processed_state, ai_action, reward, processed_next_state)
             
             state = next_state
             total_reward += reward
