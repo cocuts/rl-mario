@@ -3,3 +3,4 @@ nes-py==8.2.1
 numpy==1.21.0
 pynput==1.7.3
 gym==0.23.1
+Pillow==8.2.0

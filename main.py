@@ -13,7 +13,6 @@ def on_press(key):
 def main():
     env = MarioEnvironment()
     
-    # Set up a listener for the ESC key to quit the game
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
 
@@ -26,8 +25,7 @@ def main():
     elif agent_type == 'r':
         agent = RandomAgent(action_space=len(env.action_space))
     elif agent_type == 'l':
-        state_size = env.env.observation_space.shape[0]  # Adjust this based on your state representation
-        agent = LSTMAgent(state_size=state_size, action_size=len(env.action_space))
+        agent = LSTMAgent(action_size=len(env.action_space))
     else:
         print("Invalid agent type. Defaulting to Q-Learning.")
         agent = QLearningAgent(action_space=len(env.action_space), state_space=config.STATE_SPACE,

@@ -4,6 +4,7 @@ import torch.optim as optim
 import numpy as np
 import random
 from collections import deque
+from PIL import Image
 
 class LSTMNetwork(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
@@ -22,8 +23,7 @@ class LSTMNetwork(nn.Module):
                 torch.zeros(1, batch_size, self.hidden_size))
 
 class LSTMAgent:
-    def __init__(self, state_size, action_size, hidden_size=64, learning_rate=0.001, gamma=0.99, epsilon_start=1.0, epsilon_end=0.01, epsilon_decay=0.995):
-        self.state_size = state_size
+    def __init__(self, action_size, hidden_size=64, learning_rate=0.001, gamma=0.99, epsilon_start=1.0, epsilon_end=0.01, epsilon_decay=0.995):
         self.action_size = action_size
         self.hidden_size = hidden_size
         self.gamma = gamma
@@ -32,7 +32,7 @@ class LSTMAgent:
         self.epsilon_decay = epsilon_decay
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.network = LSTMNetwork(state_size, hidden_size, action_size).to(self.device)
+        self.network = LSTMNetwork(7056, hidden_size, action_size).to(self.device)  
         self.optimizer = optim.Adam(self.network.parameters(), lr=learning_rate)
         self.criterion = nn.MSELoss()
 
@@ -80,8 +80,11 @@ class LSTMAgent:
         self.epsilon = max(self.epsilon_end, self.epsilon * self.epsilon_decay)
 
     def preprocess_state(self, state):
-        # Convert the state to a flat array
-        return np.array(state).flatten()
+        # Convert the state to grayscale and resize to 84x84
+        gray = np.mean(state, axis=2).astype(np.uint8)
+        small = np.array(Image.fromarray(gray).resize((84, 84)))
+        # Normalize and flatten
+        return (small / 255.0).flatten()
 
     def reset(self):
         self.hidden = self.network.init_hidden(1)
